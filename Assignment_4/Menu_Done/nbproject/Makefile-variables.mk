@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=Cygwin-Windows
 CND_ARTIFACT_DIR_Debug=dist/Debug/Cygwin-Windows
-CND_ARTIFACT_NAME_Debug=menu
-CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/menu
+CND_ARTIFACT_NAME_Debug=menu_done
+CND_ARTIFACT_PATH_Debug=dist/Debug/Cygwin-Windows/menu_done
 CND_PACKAGE_DIR_Debug=dist/Debug/Cygwin-Windows/package
-CND_PACKAGE_NAME_Debug=menu.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/menu.tar
+CND_PACKAGE_NAME_Debug=menudone.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/Cygwin-Windows/package/menudone.tar
 # Release configuration
 CND_PLATFORM_Release=Cygwin-Windows
 CND_ARTIFACT_DIR_Release=dist/Release/Cygwin-Windows
-CND_ARTIFACT_NAME_Release=menu
-CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/menu
+CND_ARTIFACT_NAME_Release=menu_done
+CND_ARTIFACT_PATH_Release=dist/Release/Cygwin-Windows/menu_done
 CND_PACKAGE_DIR_Release=dist/Release/Cygwin-Windows/package
-CND_PACKAGE_NAME_Release=menu.tar
-CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/menu.tar
+CND_PACKAGE_NAME_Release=menudone.tar
+CND_PACKAGE_PATH_Release=dist/Release/Cygwin-Windows/package/menudone.tar
 #
 # include compiler specific variables
 #

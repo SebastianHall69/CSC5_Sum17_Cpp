@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
                 "3.) Country Club Membership Rate Increase\n"
                 "4.) Distance Traveled For Speed And Time\n"
                 "5.) Penny Wages Doubled Each Day\n"
-                "6.) Hotel Occupancy Calculator (need help)\n"
+                "6.) Hotel Occupancy Calculator\n"
                 "7.) Average Rainfall Per Month Over Years\n"
                 "8.) Budget Analysis\n"
                 "9.) The Random Number Game\n"
@@ -119,6 +119,7 @@ int main(int argc, char** argv) {
     //Header
     cout<<"You will be entering the speed of a vehicle and\nhow many"
             " hours it has traveled.\nPress enter to begin\n";
+    cin.ignore();
     cin.get();
     
     
@@ -195,13 +196,14 @@ int main(int argc, char** argv) {
             occRoom,//Occupied rooms on each floor
             ocRmTot=0,//Occupied room total
             emRmTot=0,//Empty room total
-            allRoom;//All the rooms in the hotel
+            allRoom=0;//All the rooms in the hotel
     float perOcc;//The percent occupied
     
     //Input data
     cout<<"\tHotel Occupancy Calculator\n\n"; //Header
     cout<<"Enter the number of the highest floor"
           " in your hotel\n";//Prompt answer
+    cin.ignore();
     cin>>numFlr;//Get floor number for loop
     
     //Map inputs to outputs or process the data
