@@ -32,8 +32,10 @@ int india(float ,int);
 
 //Execution begins here
 int main() {
+    //Setting random seed
+    srand(static_cast<unsigned int>(time(0)));
     //Constants
-short const ENDYR=11;//The year on which all games of Hammurabi end
+    short const ENDYR=11;//The year on which all games of Hammurabi end
 
     //Define menu choice variable
     short plyAgn;//Play Again?
@@ -57,11 +59,11 @@ short const ENDYR=11;//The year on which all games of Hammurabi end
     int totBush=2800;//Total bushels starting at 2800
     int crops=0;//Amount harvested each year
     int ratFood=0;//The amount the rats happened to eat that year
-    int lndPrc=23;//The current going rate for land in bushels range [17,26]
+    int lndPrc=rand()%10+17;//The current going rate for land in bushels range [17,26]
     short sellBuy=0;//The number of acres one wishes to sell or buy
     short acrsWrk=0;//The amount of acres you decided to work
     int pplFood;//People food
-    int perAcre=0;//Bushels per acre
+    int perAcre=3;//Bushels per acre
     
     
     
@@ -77,13 +79,18 @@ short const ENDYR=11;//The year on which all games of Hammurabi end
 
         cout<<endl<<"How Many Acres Do You Wish To Buy/Sell:   ";
         cin>>sellBuy;           //Acres for sale/purchase question
-
-        while(sellBuy>acres||sellBuy>(totBush/lndPrc)||sellBuy<(acres*-1)){
-            cout<<"\nI Am Afraid That Amount Is Not Possible Hammurabi"
-                    "\nEnter Again:   ";
-            cin>>sellBuy;               //Answer validation
-        }
-
+    
+        
+        while(sellBuy<0&&sellBuy<(acres*-1)||sellBuy>0&&sellBuy>totBush/lndPrc){
+            cout<<"\nI Am Afraid That Amount Is Not Possible Hammurabi-Senpai\n"
+                    "Enter Again\n";
+            cin>>sellBuy;
+        }       //Validates for both selling more land than you have and for
+                //purchasing more land than you could afford
+        
+        
+        
+        
         //Updating and displaying important values
         acres+=sellBuy;             
         totBush-=sellBuy*lndPrc; //Printing new values to help make decisions 
@@ -146,7 +153,7 @@ short const ENDYR=11;//The year on which all games of Hammurabi end
     }
     
     
-                        //Output for losing with no land
+    //Output for losing with no land
     if(year==11&&acres<1){
         cout<<endl<<endl<<endl<<"You Are A King Without A Kingdom And A Failure"
                 " Of A Man\nYou Finished With No Land And "<<pop<<" People\n"
@@ -203,6 +210,7 @@ void gtTitle(){
     while(titleO>>ttl){         //Displaying file name one string at a time
         cout<<ttl<<" ";
     }
+    titleO.close();
     cout<<endl;
 }
 
