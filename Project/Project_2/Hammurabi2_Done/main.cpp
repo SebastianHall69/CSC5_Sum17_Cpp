@@ -30,7 +30,7 @@ short neoPop();     //The new population each year
 short cropRnd();//Random crop growth each year
 short loss(int);//Bushels lost by rats     //Functions Overloading
 int loss(float ,int);//People lost by starvation
-void stats(int [][ENDYR],int [],int [],vector<int>);
+void stats(int [][ENDYR],int [],int [],vector<int>);//To output stats
 
 //Execution begins here
 int main() {
@@ -64,10 +64,10 @@ int main() {
     short acrsWrk=0;//The amount of acres you decided to work
     int pplFood;//People food
     int perAcre=3;//Bushels per acre
-    int ttlGrw[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//Array to hold how much was grown each year
-    int ttlFed[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//The total fed to the people each year
+    int ttlGrw[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//Array for grown each year
+    int ttlFed[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//The total grain for people/yr
     int cnt=0;//Array increment counter
-    int deadYr[2][ENDYR]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    int deadYr[2][ENDYR]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};//dead/yr
     vector<int> rats(10);//For adding up eaten by rats
     
     
@@ -117,8 +117,8 @@ int main() {
         cout<<"\nTotal Bushels:     "<<totBush<<endl;
         cout<<"Total Population:  "<<pop<<endl;
         
-        deadYr[0][year-2]=year-1;
-        deadYr[1][year-2]=strvd;
+        deadYr[0][year-2]=year-1;//Setting years of array inside main for loop
+        deadYr[1][year-2]=strvd;//Setting starved of array inside main for loop
         
         //Question 3
         cout<<"How Many Acres Do You Wish To Plant With Seed:   ";
@@ -150,8 +150,8 @@ int main() {
         ttlGrw[year-2]=crops;
         totBush+=crops;//Total bushels after getting crops
         ratFood=loss(totBush);//Eaten by rats. takes away from totBush
-        totBush-=ratFood;
-        rats[year-2]=ratFood;
+        totBush-=ratFood;//Supply minus amount eaten by rats
+        rats[year-2]=ratFood;//Rat total vector
         
         
         
@@ -161,7 +161,7 @@ int main() {
             pop=pop*(rand()%45 +51);
             pop/=100;
             cout<<"\nOh no, a violent plague occurred and killed many "
-                    "citizens\n";
+                    "citizens\n";//Alerting player of tragedy
         }
         
            //Displaying recurring header for each year  
@@ -191,7 +191,7 @@ int main() {
                     "You Have Been Dethroned And Executed For Incompetence\n"
                     "You Lose The Game\n";
     }
-    stats(deadYr,ttlFed,ttlGrw,rats);
+    stats(deadYr,ttlFed,ttlGrw,rats);//Calling stats function after game ends
     
     //Asking to play again or quit
     cout<<"\n\n\n1.) Play Again\n2.) Quit\n";
@@ -232,7 +232,7 @@ void gtTitle(){
     while(titleO>>ttl){         //Displaying file name one string at a time
         cout<<ttl<<" ";
     }
-    titleO.close();
+    titleO.close();//Closing file
     cout<<endl;
 }
 
@@ -280,8 +280,6 @@ void dspYear(int &year,float newPpl,int strvd,float &pop,int &acres
 }
 
 short priceL(){
-    //Setting the random seed
-    srand(static_cast<unsigned int>(time(0)));
     short lndPrc=rand()%10+17;//Assigning land price to random
     
     return pow(lndPrc,1);//Returning land price for each round
@@ -289,15 +287,13 @@ short priceL(){
 }
 
 short neoPop(){
-    //Setting the random seed
-    srand(static_cast<unsigned int>(time(0)));
+    //Calculating new people each year
     short newPop=rand()%10+3;//Range [3,17]
     return newPop;//returning the amount of new people
 }
 
 short cropRnd(){
-    //Random Seed Set
-    srand(static_cast<unsigned int>(time(0)));
+    //Calculating random crop variable each year
     short perAcre=0;//Initialize to 0
     perAcre=rand()%5+1;//Range [1,5] crops per acre
     
@@ -305,8 +301,7 @@ short cropRnd(){
 }
 
 short loss(int totBush){
-    //Time seed random
-    srand(static_cast<unsigned int>(time(0)));
+    //Calculating random possibility of rats
     short poss=0;//Start at 0 
     poss=rand()%3+1;//Possibility of rats eating grain is 1/3
     short eaten=0;//The numeric amount eaten
