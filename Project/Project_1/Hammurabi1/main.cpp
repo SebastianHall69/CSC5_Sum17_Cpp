@@ -219,8 +219,10 @@ void seeRule(){
     bool choice;            //Boolean value for the rules display choice
     
     cout<<"Press 0 And Enter To See The Game Rules.\nPress "//Rules input prompt
-            "Anything Else To Continue And Play The Game\n";
-    cin>>ans;        //inputting choice to see rules 
+            "1 To Continue And Play The Game\n";
+    cin>>ans;        //inputting choice to see rules
+    if(ans==0)
+        ans=1;
     choice=ans-48;   //Setting the char to the boolean
     
     if(choice==false){

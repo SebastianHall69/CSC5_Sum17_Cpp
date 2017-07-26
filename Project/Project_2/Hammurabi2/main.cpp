@@ -12,11 +12,13 @@
 #include <fstream>   //For File Input/Output
 #include <iomanip>   //Formatting
 #include <cmath>     //For the math functions
+#include <vector>    //For vector requirement
 using namespace std; //Name-space under which system libraries exist
 
 //User Libraries
 
 //Global Constants
+short const ENDYR=11;//The year constant for arrays
 
 //Function Prototypes
 void gtTitle();//Output title using file input/output
@@ -28,14 +30,12 @@ short neoPop();     //The new population each year
 short cropRnd();//Random crop growth each year
 short loss(int);//Bushels lost by rats     //Functions Overloading
 int loss(float ,int);//People lost by starvation
-
+void stats(int [][ENDYR],int [],int [],vector<int>);
 
 //Execution begins here
 int main() {
     //Setting random seed
     srand(static_cast<unsigned int>(time(0)));
-    //Constants
-    short const ENDYR=11;//The year on which all games of Hammurabi end
 
     //Define menu choice variable
     short plyAgn;//Play Again?
@@ -64,10 +64,11 @@ int main() {
     short acrsWrk=0;//The amount of acres you decided to work
     int pplFood;//People food
     int perAcre=3;//Bushels per acre
-    int ttlGrw[ENDYR];//Array to hold how much was grown each year
-    int ttlFed[ENDYR];//The total fed to the people each year
+    int ttlGrw[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//Array to hold how much was grown each year
+    int ttlFed[ENDYR]={0,0,0,0,0,0,0,0,0,0,0};//The total fed to the people each year
     int cnt=0;//Array increment counter
-    
+    int deadYr[2][ENDYR]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    vector<int> rats(10);//For adding up eaten by rats
     
     
     //Display the first years data
@@ -78,7 +79,6 @@ int main() {
     //Starting Loop For Years 1-11
     for(year+=1;year<ENDYR;++year){
         //Displaying the output questions
-
         cout<<endl<<"How Many Acres Do You Wish To Buy/Sell:   ";
         cin>>sellBuy;           //Acres for sale/purchase question
     
@@ -97,8 +97,7 @@ int main() {
         acres+=sellBuy;             
         totBush-=sellBuy*lndPrc; //Printing new values to help make decisions 
         cout<<endl<<"New Acres:   "<<acres<<endl;
-        cout<<"Total Bushels:     "<<totBush<<endl;
-
+        cout<<"Total Bushels:     "<<totBush<<endl;   
 
         //Next question
         cout<<"How Many Grains Would You Like To Feed Your People:   ";
@@ -109,7 +108,7 @@ int main() {
             cin>>pplFood;       //Answer validation
         }
         //Fill Total fed to people array
-        ttlFed[cnt]=pplFood;
+        ttlFed[year-2]=pplFood;
         
         //Decision making info output
         totBush-=pplFood;
@@ -117,6 +116,9 @@ int main() {
         cout<<"\nTotal Acres:       "<<acres;
         cout<<"\nTotal Bushels:     "<<totBush<<endl;
         cout<<"Total Population:  "<<pop<<endl;
+        
+        deadYr[0][year-2]=year-1;
+        deadYr[1][year-2]=strvd;
         
         //Question 3
         cout<<"How Many Acres Do You Wish To Plant With Seed:   ";
@@ -145,11 +147,11 @@ int main() {
         pop+=newPpl;//Adding new population to old population
         perAcre=cropRnd();//Crops grown per acre
         crops=perAcre*acrsWrk;//Total Acres worked
-        ttlGrw[cnt]=crops;
+        ttlGrw[year-2]=crops;
         totBush+=crops;//Total bushels after getting crops
         ratFood=loss(totBush);//Eaten by rats. takes away from totBush
         totBush-=ratFood;
-        
+        rats[year-2]=ratFood;
         
         
         
@@ -185,11 +187,11 @@ int main() {
     }    //Compares you with great leaders based on score like original does
     
     else{//Killing too many people output
-        cout<<"You Have Killed "<<strvd<<" people in 1 year\n"
+        cout<<"\nYou Have Killed "<<strvd<<" people in 1 year\n"
                     "You Have Been Dethroned And Executed For Incompetence\n"
                     "You Lose The Game\n";
     }
-    
+    stats(deadYr,ttlFed,ttlGrw,rats);
     
     //Asking to play again or quit
     cout<<"\n\n\n1.) Play Again\n2.) Quit\n";
@@ -239,7 +241,7 @@ void seeRule(){
     bool choice;            //Boolean value for the rules display choice
     
     cout<<"Press 0 And Enter To See The Game Rules.\nPress "//Rules input prompt
-            "Anything Else To Continue And Play The Game\n";
+            "1 To Continue And Play The Game\n";
     cin>>ans;        //inputting choice to see rules 
     choice=ans-48;   //Setting the char to the boolean
     
@@ -305,10 +307,11 @@ short cropRnd(){
 short loss(int totBush){
     //Time seed random
     srand(static_cast<unsigned int>(time(0)));
-    short poss=rand()%3+1;//Possibility of rats eating grain is 1/3
+    short poss=0;//Start at 0 
+    poss=rand()%3+1;//Possibility of rats eating grain is 1/3
     short eaten=0;//The numeric amount eaten
     
-    if(poss==2){//If poss =2 then rats will come else
+    if(poss==1){//If poss =1 then rats will come else
     float perc;//Percentage of crops ravaged by rats
     perc=rand()%50+1;//Range of [1,50] percent
     eaten=(totBush*perc/100);
@@ -330,3 +333,58 @@ int loss(float pop,int pplFood){
     }
 
 
+void stats(int deadYr[][11],int ttlFed [],int ttlGrw[],vector<int> rats){
+    cout<<"\n\nYear: ";
+    int tGrw=0;//Total grown
+    int tFed=0;//Total fed
+    int highest=0;
+    int ratTtl=0;
+    
+    for(int i=0;i<2;i++){
+        for(int j=0;j<10;j++){
+            cout<<setw(2)<<deadYr[i][j]<<" ";
+        }
+        if(i==0);
+        cout<<endl<<"Dead: ";
+    }
+    //Sorting deadYr
+    bool swap;
+    int temp;
+    do{
+        swap=false;
+        for(int i=0;i<2;i++){
+            for(int j=0;j<ENDYR;j++){
+                if(deadYr[i]>deadYr[i+1]){
+                    temp=deadYr[i][j];             //Sorting before searching
+                    deadYr[i][j]=deadYr[i][j+1];
+                    deadYr[i][j+1]=temp;
+                    swap=true;
+                }
+            }
+        }
+    }while(swap);
+    
+    //Calculate totals from arrays
+    for(int i=0;i<ENDYR-1;i++){
+        tFed+=ttlFed[i];
+    }
+    //Calculate totals from arrays
+    for(int i=0;i<ENDYR-1;i++){
+        tGrw+=ttlGrw[i];
+    }
+    //Calculate totals from arrays
+    for(int i=0;i<ENDYR-1;i++){
+        ratTtl+=rats[i];
+    }
+    //Getting high from linear search
+    for(int i=0;i<ENDYR-1;i++){
+        if(deadYr[1][i]>highest)
+            highest=deadYr[1][i];
+    }
+    //Output remaining statistics
+    cout<<endl<<"Highest Killed In One Year: "<<highest<<endl<<
+            "Total Grains Fed: "<<tFed<<endl<<"Total Grown: "<<tGrw<<endl
+            <<"Total eaten by rats: "<<ratTtl<<endl;
+    
+    
+}
