@@ -274,7 +274,7 @@ void dspYear(int &year,float newPpl,int strvd,float &pop,int &acres
     cout<<"The city now owns "<<acres<<" acres\n";
     cout<<"You harvested "<<perAcre<<" bushels per acre\n";
     cout<<"Rats ate "<<ratFood<<" bushels\n";
-    cout<<"You now have "<<totBush<<" in store\n";
+    cout<<"You now have "<<totBush<<" grains in store\n";
     cout<<"Land is trading at "<<lndPrc<<" bushels per acre\n";
     
 }
